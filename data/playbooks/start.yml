@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  tasks:
+    - name: Test container in host
+      docker_container:
+        name: hello
+        state: started
+        image: busybox
+        interactive: true
+        tty: true
+
