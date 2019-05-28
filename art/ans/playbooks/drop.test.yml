@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: localhost
+  tasks:
+    - name: No test container in host
+      docker_container:
+        name: hello
+        state: absent

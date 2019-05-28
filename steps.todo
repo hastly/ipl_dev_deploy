@@ -1,4 +1,13 @@
+
  ✔ basic documentation in readme, describing "ans" and "pg" and this to do in initial state 
- ≡ ans box with test art
- ≡ provisioning pg box
- ≡ configure pg box with ans
+
+ ✔ initial "ans" @done (19-05-28 19:29)
+   ✔ "ans" (box) with ansible config (art)
+   ✔ compose with "ans" service (box)
+   ✔ "ans" init script (art)
+   ✔ test playbook (art) with host docker management
+   ✔ main launch script (art)
+
+ ≡ single data base (api) "pg"
+   ≡ provisioning pg box
+   ≡ configure pg box with ans

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set +x
+
+echo "$@"
+echo $(pwd)
+
+socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock &
+if test -f /ansible/playbooks/"$1".yml;
+then
+	echo Run book...
+	ansible-playbook /ansible/playbooks/"$1".yml
+else
+	echo Run command...
+	exec "$@"
+fi

@@ -1,14 +1,22 @@
 # Auto deployed development environment for ipl-api
 
-## Prerequisites:
+## Prerequisites
 
   - git with access to gitlab repo
   - docker
 
 
+## How to use
 
-## Parts
+Upon cloning run dock.sh script without arguments to spin up machinery
 
+
+## What do we have here
+
+### POI
+
+- start/stop/manage containers: ./dock.sh script
+- see available command to use or add own command: ./art/ans/playbooks/
 
 ### Project structure
 
@@ -17,6 +25,28 @@
   - /art = files to be added into docks: configurations, play-books, fixtures etc.
   - /vol = persistent storage for docks
 
+
+```
+.
+├── art <-- files to be available in docks
+│   └── ans <-- files to be available in "ans" dock
+│       ├── ansible.cfg <-- ansible environment config
+│       ├── files <-- artifacts to use inside dock
+│       │   └── init_script
+│       ├── hosts <-- static list of hosts to ansible to work on pointed to in ansible.cfg
+│       └── playbooks <-- methods to run on docks
+│           └── up.yml <-- default up method
+├── box <-- files to configure docks provisioning
+│   ├── ans <-- config for "ans" dock
+│   │   └── Dockerfile
+│   └── docker-compose.yml <-- configuration of all docks
+├── dock.sh <-- universal bash manager script
+├── README.md <-- this doc
+└── steps.todo <-- complete and to be done tasks
+```
+
+
+## Parts
 
 ### Api complex
 
@@ -40,11 +70,11 @@ It comprises all artifacts required to run "ipl api" development environment. Al
 
 ### Provisioning
 
-It's custom image built on top of official "ubuntu xenial 64" as base image. Aside of python 3, ansible and docker api utility it is staffed with:
+It's custom image built on top of official "ubuntu xenial 64" as base image, cause it has everything to work with postgres 9.5 in its repo. Aside of python 3, ansible and docker api utility it is staffed with:
 		- _bison_ and _flex_ via apt to make postgres extensions
 		- postgres development and client packages via apt and postgres adapter package via pip to communicate with postgres in general
-		- socat package to proxy local port into docker socket
-		- ipmt package via pip to run migrations
+		- _socat_ apt package to proxy local port into docker socket
+		- _ipmt_ pip package to run migrations
 All data files required to configure other docks supplied via docker volume from this repo. It receives host docker sock as volume as well.
 
 

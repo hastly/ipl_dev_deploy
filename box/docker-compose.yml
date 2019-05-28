@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  ans:
+    network_mode: host
+    build:
+      context: ./ans/
+    command: up
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../art/ans:/ansible
