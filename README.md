@@ -12,9 +12,10 @@
 
 ### Project structure
 
-  - / =  start scripts and docker configurations, description and to-do
-  - /boxed = files to be added into docks
-  - /volumes = persistent storage for docks
+  - / = start scripts and documentation
+  - /box = docker and docker compose configurations
+  - /art = files to be added into docks: configurations, play-books, fixtures etc.
+  - /vol = persistent storage for docks
 
 
 ### Api complex
