@@ -2,9 +2,11 @@ FROM ubuntu:xenial
 
 ENV ANSIBLE_VERSION 2.8.0
 ENV DOCKER_HOST="tcp://127.0.0.1:2375"
+ENV IPL_DEV_DEPLOY_ROOT=../
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y \
+        git \
         bison \ 
         flex \
         libpq5 \
@@ -20,7 +22,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && \
         docker \
         psycopg2-binary && \
     pip install \
-        ipmt
+        ipmt && \
+    pip install \
+        docker-compose
 
 
 WORKDIR /ansible

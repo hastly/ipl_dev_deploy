@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: localhost
+  tasks:
+    - name: Drop ans instance
+      docker_container:
+        name: ipl_dev_deploy_ans
+        state: absent

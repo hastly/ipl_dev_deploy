@@ -1,0 +1,15 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Drop initial pg container
+      docker_container:
+        name: ipl_dev_deploy_pg_init
+        state: absent
+    - name: Drop chown pg data one time run utility container
+      docker_container:
+        name: ipl_dev_deploy_pg_data_chown
+        state: absent

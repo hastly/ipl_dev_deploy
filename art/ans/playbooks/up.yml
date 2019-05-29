@@ -5,4 +5,5 @@
 - hosts: all
   gather_facts: false
 
-- import_playbook: up.test.yml
+- import_playbook: up.conf_pg.yml
+- import_playbook: up.drop_temp.yml
