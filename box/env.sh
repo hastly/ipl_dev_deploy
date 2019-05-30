@@ -4,6 +4,7 @@
 export IPL_DEV_DEPLOY_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 export IPL_DEV_DEPLOY_ROOT="$(echo $IPL_DEV_DEPLOY_ROOT | tail -1)"
 
+export IPL_DEV_DEPLOY_HOST_PK="~/.ssh/ip_gitlab_pk"
 export IPL_DEV_DEPLOY_HOST_UID="$(id -u)"
 export IPL_DEV_DEPLOY_HOST_GUID="$(id -g)"
 

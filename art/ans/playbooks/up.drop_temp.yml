@@ -13,3 +13,7 @@
       docker_container:
         name: ipl_dev_deploy_pg_data_chown
         state: absent
+    - name: Drop blank ans container
+      docker_container:
+        name: ipl_dev_deploy_ans
+        state: absent

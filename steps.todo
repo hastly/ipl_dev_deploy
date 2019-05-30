@@ -9,5 +9,15 @@
    ✔ main launch script (art)
 
  ≡ single data base (api) "pg"
-   ≡ provisioning pg box
+   ✔ provisioning pg box
+   ✔ install git-docker compose in ans image
+   ✔ env script with IPL_DEV_DEPLOY_ vars
+   ✔ pg services incl temporary
+   ✔ pg configuration play-book
+   ✔ sshd with expose to host localhost ephemeral port runs inside ans to provide proxy access
+   ✔ expose private repo key to ans
+   ✔ separate ans containers for init and for one-off run with different run scripts
+   ✔ one-off ans prevent itself from running in run script and dropped by ans_init run script
+   ✔ internal network for pg, host network for ans and no network for temporary containers
+   ✔ access from ans to pg via container host name using env for user and password
    ≡ configure pg box with ans

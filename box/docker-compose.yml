@@ -1,51 +1,76 @@
-version: "2"
+version: "3.5"
 
 volumes:
-  pg_lib:
+  pg_tmp_lib:
     external: false
-  pg_header:
+  pg_tmp_header:
     external: false
-  pg_extension:
+  pg_tmp_extension:
     external: false
 
 networks:
   pg_link:
-    external: false
+    internal: true
+  host_link:
+
 
 services:
-  ans:
-    container_name: "ipl_dev_deploy_ans"
+  ans_init:
+    container_name: "ipl_dev_deploy_ans_init"
     depends_on:
       - pg
     image: "ipl_dev_deploy_ans"
-    # network_mode: host
     networks:
+      - host_link
       - pg_link
+    ports:
+      - "127.0.0.1::2222"
     build:
       context: "$IPL_DEV_DEPLOY_ROOT/box/ans"
-    command: up
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - "$IPL_DEV_DEPLOY_ROOT/art/ans:/ansible"
+      - "$IPL_DEV_DEPLOY_ROOT/art/ans:/ansible/art"
       - "$IPL_DEV_DEPLOY_ROOT/box:/ansible/box"
-      - "pg_lib:/ansible/art/pg/lib"
-      - "pg_header:/ansible/art/pg/header"
-      - "pg_extension:/ansible/art/pg/extension"
+      - "pg_tmp_lib:/ansible/pg_tmp/lib"
+      - "pg_tmp_header:/ansible/pg_tmp/header"
+      - "pg_tmp_extension:/ansible/pg_tmp/extension"
+      - "$IPL_DEV_DEPLOY_HOST_PK:/ansible/pk"
+
+  ans:
+    container_name: "ipl_dev_deploy_ans"
+    image: "ipl_dev_deploy_ans"
+    networks:
+      - host_link
+      - pg_link
+    ports:
+      - "127.0.0.1::2222"
+    build:
+      context: "$IPL_DEV_DEPLOY_ROOT/box/ans"
+    entrypoint:
+      - /ansible/art/files/run_script
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "$IPL_DEV_DEPLOY_ROOT/art/ans:/ansible/art"
+      - "$IPL_DEV_DEPLOY_ROOT/box:/ansible/box"
+      - "$IPL_DEV_DEPLOY_HOST_PK:/ansible/pk"
 
   pg_init:
     container_name: "ipl_dev_deploy_pg_init"
     image: "postgres:$IPL_DEV_DEPLOY_PG_VERSION-alpine"
     user: postgres
+    network_mode: none
     volumes:
       - "$IPL_DEV_DEPLOY_ROOT/vol/pg:$IPL_DEV_DEPLOY_PG_DATA:rw"
     environment:
+      POSTGRES_USER: $IPL_DEV_DEPLOY_PG_USER
+      POSTGRES_PASSWORD: $IPL_DEV_DEPLOY_PG_PASSWORD
       PGDATA: $IPL_DEV_DEPLOY_PG_DATA
-    command: pg_ctl stop -m i
   pg_data_chown:
     container_name: "ipl_dev_deploy_pg_data_chown"
     depends_on:
       - pg_init
     image: bash
+    network_mode: none
     command: "chown -R $IPL_DEV_DEPLOY_HOST_UID:$IPL_DEV_DEPLOY_HOST_GUID $IPL_DEV_DEPLOY_PG_DATA"
     volumes:
       - "/etc/passwd:/etc/passwd:ro"
@@ -54,18 +79,18 @@ services:
     container_name: "ipl_dev_deploy_pg"
     depends_on:
       - pg_data_chown
-    image: "postgres:${IPL_DEV_DEPLOY_PG_VERSION}-alpine"
-    user: $IPL_DEV_DEPLOY_HOST_UID:$IPL_DEV_DEPLOY_HOST_GUID
     networks:
       - pg_link
+    image: "postgres:${IPL_DEV_DEPLOY_PG_VERSION}-alpine"
+    user: $IPL_DEV_DEPLOY_HOST_UID:$IPL_DEV_DEPLOY_HOST_GUID
     ports:
       - '5432:5432'
     volumes:
       - "/etc/passwd:/etc/passwd:ro"
       - "$IPL_DEV_DEPLOY_ROOT/vol/pg:$IPL_DEV_DEPLOY_PG_DATA:rw"
-      - "pg_lib:/usr/local/lib/postgresql"
-      - "pg_header:/usr/local/include/postgresql/server"
-      - "pg_extension:/usr/local/share/postgresql/extension"
+      - "pg_tmp_lib:/usr/local/lib/postgresql"
+      - "pg_tmp_header:/usr/local/include/postgresql/server"
+      - "pg_tmp_extension:/usr/local/share/postgresql/extension"
     environment:
       POSTGRES_USER: $IPL_DEV_DEPLOY_PG_USER
       POSTGRES_PASSWORD: $IPL_DEV_DEPLOY_PG_PASSWORD

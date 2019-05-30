@@ -7,6 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y \
         git \
+        openssh-server \
         bison \ 
         flex \
         libpq5 \
@@ -26,8 +27,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && \
     pip install \
         docker-compose
 
+RUN sed -i 's/Port 22/Port 2222/' /etc/ssh/sshd_config
+RUN mkdir /root/.ssh;chown -R root:root /root/.ssh;chmod -R 700 /root/.ssh
+RUN mkdir /var/run/sshd
+WORKDIR /ansible/art
 
-WORKDIR /ansible
-
-ENTRYPOINT ["/ansible/files/init_script"]
+ENTRYPOINT ["/ansible/art/files/init_script"]
 

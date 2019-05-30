@@ -22,28 +22,30 @@
         params:
           USE_PGXS: 1
     - name: copy jsquery lib for pg
-      shell: cp /usr/lib/postgresql/9.5/lib/jsquery.so /ansible/art/pg/lib
+      shell: cp /usr/lib/postgresql/9.5/lib/jsquery.so /ansible/pg_tmp/lib
     - name: copy jsquery header for pg
-      shell: cp /usr/include/postgresql/9.5/server/jsquery.h /ansible/art/pg/header
+      shell: cp /usr/include/postgresql/9.5/server/jsquery.h /ansible/pg_tmp/header
     - name: copy jsquery sql A for pg
-      shell: cp /usr/share/postgresql/9.5/extension/jsquery--1.0--1.1.sql /ansible/art/pg/extension
+      shell: cp /usr/share/postgresql/9.5/extension/jsquery--1.0--1.1.sql /ansible/pg_tmp/extension
     - name: copy jsquery sql B for pg
-      shell: cp /usr/share/postgresql/9.5/extension/jsquery--1.1.sql /ansible/art/pg/extension
+      shell: cp /usr/share/postgresql/9.5/extension/jsquery--1.1.sql /ansible/pg_tmp/extension
     - name: copy jsquery extension into pg docker
-      shell: cp /usr/share/postgresql/9.5/extension/jsquery.control /ansible/art/pg/extension
+      shell: cp /usr/share/postgresql/9.5/extension/jsquery.control /ansible/pg_tmp/extension
     - name: install jsquery extention in pg
       postgresql_query:
-        login_host: 127.0.0.1
+        login_host: ipl_dev_deploy_pg
         login_user: '{{ lookup("env", "IPL_DEV_DEPLOY_PG_USER") }}'
         login_password: '{{ lookup("env", "IPL_DEV_DEPLOY_PG_PASSWORD") }}'
         port: 5432
         db: postgres
         query: CREATE EXTENSION IF NOT EXISTS jsquery;
-    # - name: create api db
-    #   postgresql_db:
-    #     name: api
-    #     login_host: 127.0.0.1
-    #     login_password: qweasdzxc
+    - name: create api db
+      postgresql_db:
+        name: api
+        login_host: ipl_dev_deploy_pg
+        login_user: '{{ lookup("env", "IPL_DEV_DEPLOY_PG_USER") }}'
+        login_password: '{{ lookup("env", "IPL_DEV_DEPLOY_PG_PASSWORD") }}'
+        port: 5432
     # - name: Ensure .ssh
     #   file:
     #     dest: "{{ GITLAB_KEY_PATH_DEST | dirname }}"
