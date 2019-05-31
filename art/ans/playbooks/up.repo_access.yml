@@ -1,0 +1,24 @@
+#!/usr/bin/env ansible-playbook
+# up.pg_struct_n_data.yml
+# заботится о создании структуры необходимых баз и наполнении их фикстурами
+
+---
+
+
+- hosts: local
+  become: true
+  gather_facts: false
+  vars:
+    # чтобы лукапами не повторяться
+    GITLAB_URL: "{{ lookup('env', 'IPL_DEV_DEPLOY_GITLAB_URL') }}"
+    GITLAB_PATH_API: "{{ lookup('env', 'IPL_DEV_DEPLOY_GITLAB_PATH_API') }}"
+    PG_USER: "{{ lookup('env', 'IPL_DEV_DEPLOY_PG_USER') }}"
+    PG_PASSWORD: "{{ lookup('env', 'IPL_DEV_DEPLOY_PG_PASSWORD') }}"
+  tasks:
+    - name: Compose ssh configuration to access gitlab
+    # связывает хост репозитория с личным ключом
+      template:
+        src: "/ansible/art/files/config.ssh.j2"
+        dest: "/root/.ssh/config"
+        mode: 0600
+        owner: root

@@ -2,9 +2,12 @@
 
 ---
 
-- hosts: all
+- hosts: local
   gather_facts: false
 
+- import_playbook: drop.pg_struct.yml
+- import_playbook: up.repo_access.yml
 - import_playbook: up.pg_extension.yml
-- import_playbook: up.pg_struct_n_data.yml
-- import_playbook: up.drop_temp.yml
+- import_playbook: up.pg_struct.yml
+- import_playbook: up.pg_data.yml
+- import_playbook: drop.docks.temp.yml

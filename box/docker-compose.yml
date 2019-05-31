@@ -31,9 +31,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - "$IPL_DEV_DEPLOY_ROOT/art/ans:/ansible/art"
       - "$IPL_DEV_DEPLOY_ROOT/box:/ansible/box"
-      - "pg_tmp_lib:/ansible/pg_tmp/lib"
-      - "pg_tmp_header:/ansible/pg_tmp/header"
-      - "pg_tmp_extension:/ansible/pg_tmp/extension"
+      - "$IPL_DEV_DEPLOY_ROOT/vol:/ansible/vol"
+      - "pg_tmp_lib:/ansible/pg_tmp/lib/"
+      - "pg_tmp_header:/ansible/pg_tmp/header/"
+      - "pg_tmp_extension:/ansible/pg_tmp/extension/"
       - "$IPL_DEV_DEPLOY_HOST_PK:/ansible/pk"
 
   ans:
@@ -51,6 +52,9 @@ services:
       - "$IPL_DEV_DEPLOY_ROOT/art/ans:/ansible/art"
       - "$IPL_DEV_DEPLOY_ROOT/box:/ansible/box"
       - "$IPL_DEV_DEPLOY_HOST_PK:/ansible/pk"
+      - "pg_tmp_lib:/ansible/pg_tmp/lib/"
+      - "pg_tmp_header:/ansible/pg_tmp/header/"
+      - "pg_tmp_extension:/ansible/pg_tmp/extension/"
 
   pg_init:
     container_name: "ipl_dev_deploy_pg_init"

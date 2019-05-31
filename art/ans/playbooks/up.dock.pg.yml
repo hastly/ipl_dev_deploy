@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: local
+  gather_facts: false
+  become : true
+  tasks:
+    - name: Spin up pg dock
+      docker_compose:
+        project_src: /ansible/box/
+        services:
+          - pg
+        state: present
+
+- import_playbook: drop.docks.temp.yml

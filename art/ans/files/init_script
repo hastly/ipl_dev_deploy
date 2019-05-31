@@ -6,7 +6,8 @@ echo $(pwd)
 
 socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock &
 ssh-keygen -yf /ansible/pk > ~/.ssh/authorized_keys
+mkdir -p /ansible/pg_tmp
 
 echo Run "up" book...
-ansible-playbook /ansible/art/playbooks/up.yml
+ansible-playbook /ansible/art/playbooks/up.keep.yml
 /usr/sbin/sshd -D

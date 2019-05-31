@@ -1,0 +1,12 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: local
+  gather_facts: false
+  become : true
+  tasks:
+    - name: Remove pg data from shared volume
+      docker_container:
+        name: ipl_dev_deploy_pg
+        state: absent

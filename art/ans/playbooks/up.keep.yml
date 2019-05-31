@@ -1,0 +1,9 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: local
+  gather_facts: false
+
+- import_playbook: up.repo_access.yml
+- import_playbook: up.dock.pg.yml

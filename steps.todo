@@ -45,6 +45,7 @@
    ≡ "$ docker-compose start/stop" methods to keep containers without re-creation
    ≡ "$ docker-compose down" = stop all, but keeps data
  ≡ info file to monitor initialization state
+ ≡ if up.keep fails run up.drop
 
    * operation fails if:
      ≡ db name or migration number is missed

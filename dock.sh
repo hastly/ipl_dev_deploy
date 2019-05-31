@@ -17,7 +17,7 @@ if hash docker-compose 2>/dev/null; then
 		docker images
 		docker volume ls
 	else
-		if [ -z "$1" ]; then
+		if [ -z "$1" ] || [ "$1" == "up" ]; then
   			docker-compose up -d --build
   		else
   			docker-compose run --rm ans "$1"

@@ -2,7 +2,7 @@
 
 ---
 
-- hosts: all
+- hosts: local
   gather_facts: false
 
-- import_playbook: drop.test.yml
+- import_playbook: up.yml

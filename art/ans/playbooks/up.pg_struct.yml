@@ -15,14 +15,7 @@
     PG_USER: "{{ lookup('env', 'IPL_DEV_DEPLOY_PG_USER') }}"
     PG_PASSWORD: "{{ lookup('env', 'IPL_DEV_DEPLOY_PG_PASSWORD') }}"
   tasks:
-    - name: Compose ssh configuration to access gitlab
-    # связывает хост репозитория с личным ключом
-      template:
-        src: "/ansible/art/files/config.ssh.j2"
-        dest: "/root/.ssh/config"
-        mode: 0600
-        owner: root
-    - name: Сreate "api" database
+    - name: Create "api" database
     # создаёт пустую базу
       postgresql_db:
         name: api
@@ -45,8 +38,3 @@
         chdir: /ansible/migrations/api
       environment:
         IPMT_DSN: "{{ PG_USER }}:{{ PG_PASSWORD }}@ipl_dev_deploy_pg:5432/api"
-    # заливает заботливо подготовленные тестовые данные
-    - name: Apply fixtures
-      shell: "pg_restore -h ipl_dev_deploy_pg -U {{ PG_USER }} -d api /ansible/art/files/fixtures_api.dump"
-      environment:
-        PGPASSWORD: "{{ PG_PASSWORD }}"

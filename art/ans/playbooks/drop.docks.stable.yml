@@ -1,0 +1,15 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- hosts: local
+  gather_facts: false
+  tasks:
+    - name: Drop main pg
+      docker_container:
+        name: ipl_dev_deploy_pg
+        state: absent
+    - name: Drop ansible init
+      docker_container:
+        name: ipl_dev_deploy_ans_init
+        state: absent
