@@ -5,5 +5,6 @@
 - hosts: all
   gather_facts: false
 
-- import_playbook: up.conf_pg.yml
+- import_playbook: up.pg_extension.yml
+- import_playbook: up.pg_struct_n_data.yml
 - import_playbook: up.drop_temp.yml

@@ -24,7 +24,7 @@ services:
       - host_link
       - pg_link
     ports:
-      - "127.0.0.1::2222"
+      - "127.0.0.1:$IPL_DEV_DEPLOY_PROXY_SSH_PORT:2222"
     build:
       context: "$IPL_DEV_DEPLOY_ROOT/box/ans"
     volumes:
@@ -42,8 +42,6 @@ services:
     networks:
       - host_link
       - pg_link
-    ports:
-      - "127.0.0.1::2222"
     build:
       context: "$IPL_DEV_DEPLOY_ROOT/box/ans"
     entrypoint:

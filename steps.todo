@@ -20,4 +20,34 @@
    ✔ one-off ans prevent itself from running in run script and dropped by ans_init run script
    ✔ internal network for pg, host network for ans and no network for temporary containers
    ✔ access from ans to pg via container host name using env for user and password
-   ≡ configure pg box with ans
+   ✔ add identity for repo server (ssh key auth)
+   ✔ bring up fixtures for api
+   ✔ run migration and fixtures
+   ✔ divide extension and data pg play-books
+   ✔ turn on ansible pretty error output
+   ✔ add real ssh forwarded to host port
+   ✔ squash image scenario sshd commands
+   ✔ add ansible hosts for pg
+
+ ≡ no ssh and all docks use host network
+ ≡ override environment with custom values
+ ≡ run to migration ###
+ ≡ start|stop with|without destroying data
+   ≡ "$ ./dock up.keep" = (default) start|skip pg configure|use before-created structure+data
+   ≡ "$ ./dock up.drop" = start|drop databases|create from scratch 
+   ≡ "$ ./dock up" = same as above
+   ≡ "$ ./dock up.to <db> <11>" = migrations up to <11> version for <db> with no fixtures*
+   ≡ "$ ./dock up.fix" = applying all fixtures*
+   ≡ "$ ./dock up.fix <db>" = applying fixtures only for <db>*
+   ≡ "$ ./dock drop" stop all and clear all db files
+   alt:
+   ≡ "$ docker-compose up" = the same as "$ ./dock up.keep_db", so keeps data
+   ≡ "$ docker-compose start/stop" methods to keep containers without re-creation
+   ≡ "$ docker-compose down" = stop all, but keeps data
+ ≡ info file to monitor initialization state
+
+   * operation fails if:
+     ≡ db name or migration number is missed
+     ≡ fixtures are already applied
+     ≡ fixture are non-compatible with structure version
+

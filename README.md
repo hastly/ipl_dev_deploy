@@ -186,3 +186,10 @@ example of fixture load:
 	```
 	pg_restore -h localhost -U postgres -d api /vagrant/files/fixtures_api.dump 
 	```
+# Troublesquashing
+
+If docker occupy ip of real resource you can prevent it from doing this like so:
+
+ $ sudo route add -net 172.24.0.0 netmask 255.255.0.0 gw 192.168.77.1
+
+ where 172.24.0.0/16 subnet of real resource

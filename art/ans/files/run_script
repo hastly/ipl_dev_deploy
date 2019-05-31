@@ -2,7 +2,7 @@
 set +x
 
 if [ ! -t 1 ] ; then
-  echo "No tty available."
+  echo "ans: it's not my turn to run."
   exit 0
 fi
 
@@ -11,6 +11,8 @@ echo $(pwd)
 . /ansible/box/env.sh
 
 socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock &
+ssh-keygen -yf /ansible/pk > ~/.ssh/authorized_keys
+
 if test -f /ansible/art/playbooks/"$1".yml;
 then
 	echo Run book...

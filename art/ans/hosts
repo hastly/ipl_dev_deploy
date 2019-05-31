@@ -1,2 +1,11 @@
 [local]
 	localhost ansible_connection=local
+[pg_main]
+	ipl_dev_deploy_pg ansible_connection=docker
+[pg_temp]
+	ipl_dev_deploy_pg_init ansible_connection=docker
+	ipl_dev_deploy_pg_data_chown ansible_connection=docker
+[pg_all]
+	ipl_dev_deploy_pg ansible_connection=docker
+	ipl_dev_deploy_pg_init ansible_connection=docker
+	ipl_dev_deploy_pg_data_chown ansible_connection=docker

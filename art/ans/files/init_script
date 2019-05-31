@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set +x
 
-echo "$@"
 echo $(pwd)
 . /ansible/box/env.sh
 
 socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock &
+ssh-keygen -yf /ansible/pk > ~/.ssh/authorized_keys
 
 echo Run "up" book...
-echo "$IPL_DEV_DEPLOY_PG_USER"
-echo "$IPL_DEV_DEPLOY_PG_PASSWORD"
 ansible-playbook /ansible/art/playbooks/up.yml
 /usr/sbin/sshd -D
